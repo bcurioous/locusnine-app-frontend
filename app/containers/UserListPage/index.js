@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -24,6 +24,20 @@ export function UserListPage() {
   useInjectReducer({ key: 'userListPage', reducer });
   useInjectSaga({ key: 'userListPage', saga });
 
+  const [currentUser, setCurrentUser] = useState(null);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    // props.getUsers();
+    fetch('http://localhost:8080/api/users')
+      .then(response => {
+        return response.json();
+      })
+      .then(usersJson => {
+        setUsers(usersJson.data);
+      });
+  }, []);
+
   return (
     <div>
       <Helmet>
@@ -31,7 +45,54 @@ export function UserListPage() {
         <meta name="description" content="Locusnine Users" />
       </Helmet>
       <FormattedMessage {...messages.header} />
-      <BulmaTable />
+      <BulmaTable
+        columns={[
+          {
+            caption: 'Name',
+            render: value => {
+              return <React.Fragment>{value}</React.Fragment>;
+            },
+          },
+          {
+            caption: 'Email',
+            render: value => {
+              return <React.Fragment>{value}</React.Fragment>;
+            },
+          },
+          {
+            caption: 'Phone #',
+            render: value => {
+              return <React.Fragment>{value}</React.Fragment>;
+            },
+          },
+          {
+            caption: 'Role',
+            render: value => {
+              return <React.Fragment>{value}</React.Fragment>;
+            },
+          },
+          {
+            caption: 'Edit',
+            render: value => (
+              // const person = value.toJSON();
+              <div className="buttons">
+                <button
+                  type="button"
+                  onClick={() => setCurrentUser(value)}
+                  className="button is-primary"
+                >
+                  Edit
+                </button>
+                <button type="button" className="button is-danger">
+                  Delete
+                </button>
+              </div>
+            ),
+          },
+        ]}
+        rows={users}
+        count={100}
+      />
     </div>
   );
 }
@@ -47,6 +108,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
+    // getUsers: () => dispatch(getUsers()),
   };
 }
 
