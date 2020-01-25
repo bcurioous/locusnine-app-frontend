@@ -29,10 +29,8 @@ export function UserListPage() {
 
   useEffect(() => {
     // props.getUsers();
-    fetch('http://localhost:8080/api/users')
-      .then(response => {
-        return response.json();
-      })
+    fetch('/api/users')
+      .then(response => response.json())
       .then(usersJson => {
         setUsers(usersJson.data);
       });
@@ -49,27 +47,19 @@ export function UserListPage() {
         columns={[
           {
             caption: 'Name',
-            render: value => {
-              return <React.Fragment>{value}</React.Fragment>;
-            },
+            render: value => <React.Fragment>{value}</React.Fragment>,
           },
           {
             caption: 'Email',
-            render: value => {
-              return <React.Fragment>{value}</React.Fragment>;
-            },
+            render: value => <React.Fragment>{value}</React.Fragment>,
           },
           {
             caption: 'Phone #',
-            render: value => {
-              return <React.Fragment>{value}</React.Fragment>;
-            },
+            render: value => <React.Fragment>{value}</React.Fragment>,
           },
           {
             caption: 'Role',
-            render: value => {
-              return <React.Fragment>{value}</React.Fragment>;
-            },
+            render: value => <React.Fragment>{value}</React.Fragment>,
           },
           {
             caption: 'Edit',

@@ -2,6 +2,7 @@
 
 const express = require('express');
 const logger = require('./logger');
+const proxy = require('http-proxy-middleware');
 
 const argv = require('./argv');
 const port = require('./port');
@@ -14,6 +15,7 @@ const ngrok =
 const { resolve } = require('path');
 const app = express();
 
+app.use('/api', proxy({ target: 'http://localhost:8080', changeOrigin: true }));
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
 

@@ -31,7 +31,6 @@ export function* saveUser({ userObj }) {
   //   // person.set('dataSchema', _get(userObj, 'dataSchema', {}));
   //   // person.set('formData', _get(userObj, 'formData', {}));
   //   // person.set('uiSchema', _get(userObj, 'uiSchema', {}));
-
   //   const newPerson = yield person.save({ ...userObj });
   //   // .then((person) => {
   //   // console.log('person is :: ', newPerson);
