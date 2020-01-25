@@ -25,8 +25,15 @@ export function UserListPage() {
   useInjectSaga({ key: 'userListPage', saga });
 
   const [currentUser, setCurrentUser] = useState(null);
+
   const [userFormDialog, setUserFormDialog] = useState(false);
   const [users, setUsers] = useState([]);
+
+  const [userName, setUserName] = useState(null);
+  const [userPhone, setUserPhone] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+  // const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     // props.getUsers();
@@ -37,8 +44,30 @@ export function UserListPage() {
       });
   }, []);
 
-  function updateUser(){
+  function createNewUser() {
+    fetch('/api/users', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: userName,
+        email: userEmail,
+        role: userRole,
+        active: true,
+        phone: userPhone,
+      }),
+    })
+      .then(response => response.json())
+      .then(usersJson => {
+        setUsers(usersJson.data);
+      });
+  }
 
+  function saveUser() {
+    if (operation === 'new') {
+      createNewUser();
+    }
+    if (operation === 'update') {
+      updateUser();
+    }
   }
 
   return (
@@ -125,6 +154,7 @@ export function UserListPage() {
                     type="text"
                     placeholder="User's Name"
                     defaultValue={currentUser && currentUser.name}
+                    onChange={e => setUserName(e.target.value)}
                   />
                 </div>
               </div>
@@ -178,7 +208,11 @@ export function UserListPage() {
             </form>
           </section>
           <footer className="modal-card-foot">
-            <button type="button" className="button is-success" onClick={updateUser}>
+            <button
+              type="button"
+              className="button is-success"
+              onClick={saveUser}
+            >
               Save changes
             </button>
             <button
