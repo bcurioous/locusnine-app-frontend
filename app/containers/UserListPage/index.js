@@ -25,6 +25,7 @@ export function UserListPage() {
   useInjectSaga({ key: 'userListPage', saga });
 
   const [currentUser, setCurrentUser] = useState(null);
+  const [userFormDialog, setUserFormDialog] = useState(false);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -36,6 +37,10 @@ export function UserListPage() {
       });
   }, []);
 
+  function updateUser(){
+
+  }
+
   return (
     <div>
       <Helmet>
@@ -43,6 +48,13 @@ export function UserListPage() {
         <meta name="description" content="Locusnine Users" />
       </Helmet>
       <FormattedMessage {...messages.header} />
+      <button
+        type="button"
+        className="button is-primary"
+        onClick={() => setUserFormDialog(true)}
+      >
+        New User
+      </button>
       <BulmaTable
         columns={[
           {
@@ -72,7 +84,10 @@ export function UserListPage() {
               <div className="buttons">
                 <button
                   type="button"
-                  onClick={() => setCurrentUser(value)}
+                  onClick={() => {
+                    setCurrentUser(value);
+                    setUserFormDialog(true);
+                  }}
                   className="button is-primary"
                 >
                   Edit
@@ -87,6 +102,95 @@ export function UserListPage() {
         rows={users}
         count={100}
       />
+
+      <div className={`modal ${userFormDialog && 'is-active'}`}>
+        <div className="modal-background" />
+        <div className="modal-card">
+          <header className="modal-card-head">
+            <p className="modal-card-title">User</p>
+            <button
+              type="button"
+              className="delete"
+              onClick={() => setUserFormDialog(false)}
+              aria-label="close"
+            />
+          </header>
+          <section className="modal-card-body">
+            <form>
+              <div className="field">
+                <label className="label">Name</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="text"
+                    placeholder="User's Name"
+                    defaultValue={currentUser && currentUser.name}
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Email</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="email"
+                    placeholder="User's Email"
+                    defaultValue={currentUser && currentUser.email}
+                  />
+                </div>
+              </div>
+
+              <div className="field">
+                <div className="control">
+                  <label className="radio">
+                    <input
+                      type="radio"
+                      defaultChecked={
+                        currentUser && currentUser.role === 'ADMIN'
+                      }
+                      name="role"
+                    />
+                    ADMIN
+                  </label>
+                  <label className="radio">
+                    <input
+                      type="radio"
+                      defaultChecked={
+                        currentUser && currentUser.role === 'CUSTOMER EXECUTIVE'
+                      }
+                      name="role"
+                    />
+                    CUSTOMER EXECUTIVE
+                  </label>
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Phone</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="text"
+                    placeholder="User's Phone (Optional)"
+                    defaultValue={currentUser && currentUser.phone}
+                  />
+                </div>
+              </div>
+            </form>
+          </section>
+          <footer className="modal-card-foot">
+            <button type="button" className="button is-success" onClick={updateUser}>
+              Save changes
+            </button>
+            <button
+              type="button"
+              className="button"
+              onClick={() => setUserFormDialog(false)}
+            >
+              Cancel
+            </button>
+          </footer>
+        </div>
+      </div>
     </div>
   );
 }
