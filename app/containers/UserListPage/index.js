@@ -47,19 +47,23 @@ export function UserListPage() {
         columns={[
           {
             caption: 'Name',
-            render: value => <React.Fragment>{value}</React.Fragment>,
+            render: value => <React.Fragment>{value.name}</React.Fragment>,
           },
           {
             caption: 'Email',
-            render: value => <React.Fragment>{value}</React.Fragment>,
+            render: value => <React.Fragment>{value.email}</React.Fragment>,
           },
           {
             caption: 'Phone #',
-            render: value => <React.Fragment>{value}</React.Fragment>,
+            render: value => <React.Fragment>{value.phone}</React.Fragment>,
           },
           {
             caption: 'Role',
-            render: value => <React.Fragment>{value}</React.Fragment>,
+            render: value => <React.Fragment>{value.role}</React.Fragment>,
+          },
+          {
+            caption: 'Status',
+            render: value => <React.Fragment>{value.status}</React.Fragment>,
           },
           {
             caption: 'Edit',
